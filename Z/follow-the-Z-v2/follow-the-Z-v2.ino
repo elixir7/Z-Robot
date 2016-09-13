@@ -14,37 +14,27 @@ void setup() {
   pinMode(2, OUTPUT); //Right LED
   Serial.begin(9600);
 
+  int numberOfNotes = 12;
+  int notes[] = {1568, 1568, 1568, 1568, 1865, 2093, 1568, 1568, 1568, 1568, 1397, 1480};
+  int tempo[] = {500, 500, 500, 500, 300, 300, 500, 500, 500, 500, 300, 300};
+
   tone(9, 3000, 1000);
   delay(2000);
 
-  //playMusic();
-
   forward(4);
-  //maneuver(1520, 1390, 1000);
-  //maneuver(1700, 1470, 4200);
-  
   turn("right", 50);
-  //forward(5);
   forward(35);
-  //maneuver(1650, 1480, 1000);
-  //maneuver(1520, 1390, 4200);
-
   turn("left", 100);
-  
   forward(15);
 
   maneuver(1300, 1300, 1000);
-  playMusic();
+  
+  play(notes, tempo, numberOfNotes);
 
   forward(4);
   turn("right", 50);
-  
   forward(35);
-  //maneuver(1650, 1480, 1000);
-  //maneuver(1520, 1390, 4200);
-
   turn("left", 100);
-  
   forward(15);
 }
 
@@ -114,33 +104,11 @@ void maneuver(int speedLeft, int speedRight, int msTime){
   servoRight.writeMicroseconds(1500);
 }
 
-void playMusic(){
-   tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-  
-  tone(9, 1865, 300);
-  delay(300);
-  tone(9, 2093, 300);
-  delay(300);
-
-  tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-  tone(9, 1568, 500);
-  delay(500);
-
-  tone(9, 1397, 400);
-  delay(400);
-  tone(9, 1480, 300);
-  delay(300);
+void play(int notes[], int tempo[], int numb){
+  for(int i = 0; i < numb; i++){
+    Serial.print(notes[i]);
+    tone(9, notes[i], tempo[i]);
+    delay(tempo[i]); 
+  }
 }
 
