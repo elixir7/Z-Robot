@@ -18,35 +18,76 @@ void setup() {
   Serial.begin(9600);
 }
 
-byte wRightOld = 0;
-byte wLeftOld = 0;
+byte wRight;
+byte wLeft;
+
+byte wRightOld = 1;
+byte wLeftOld = 1;
+
+int counter = 0;
 
 void loop() {
   
-  byte wRight = digitalRead(7);
-  byte wLeft = digitalRead(5);
+  wRight = digitalRead(7);
+  wLeft = digitalRead(5);
 
   forward();
 
-  //Turn led on depending on whiskers
+  //Right whisker activated
   if(wRight == 0){
+    Serial.println("Right whisker activated, turning left");
+    //turn right led on
     digitalWrite(2, HIGH);
+    
     reverse();
-    if(wRight != wLeftOld){
-      maneuver(1300, 1300, 300);
-    }else{
-      maneuver(1300, 1300, 200);
+    //Turn Left
+    maneuver(1300, 1300, 300);
+    
+    counter++;
+    Serial.println(counter);
+
+    if(counter == 3){
+      Serial.println("Stuck, turning 180deg");
+      //Turn 180deg
+      maneuver(1300, 1300, 500);
+      counter = 0;
     }
-    wRightOld = wRight;
+    
+    if(wRight == wRightOld){
+      Serial.println("wRight == wRightOld, resetting counter");
+      counter = 0;
+      wRightOld = 1;
+    }else{
+      wRightOld = wRight;
+    }
+    
   }else if(wLeft == 0){
+    Serial.println("Left whisker activated, turning right");
+    //turn left led on
     digitalWrite(8, HIGH);
+    
     reverse();
-    if(wLeft != wRightOld){
-      maneuver(1300, 1300, 300);
-    }else{
-      maneuver(1700, 1610, 200);
+    //turn right
+    maneuver(1700, 1610, 300);
+
+    counter++;
+    Serial.println(counter);
+
+    if(counter == 3){
+      Serial.println("Stuck, turning 180deg");
+      //Turn 180deg
+      maneuver(1300, 1300, 1000);
+      counter = 0;
     }
-    wLeftOld = wLeft;
+    
+    if(wLeft == wLeftOld){
+      Serial.println("wLeft == wLeftOld, resetting counter");
+      counter = 0;
+      wLeftOld = 1;
+    }else{
+      wLeftOld = wLeft;
+    }
+    
   }else{
     digitalWrite(2, LOW);
     digitalWrite(8, LOW);
