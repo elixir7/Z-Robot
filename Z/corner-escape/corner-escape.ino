@@ -18,8 +18,8 @@ void setup() {
   Serial.begin(9600);
 }
 
-byte wRightOld;
-byte wLeftOld;
+byte wRightOld = 0;
+byte wLeftOld = 0;
 
 void loop() {
   
@@ -32,16 +32,21 @@ void loop() {
   if(wRight == 0){
     digitalWrite(2, HIGH);
     reverse();
-    wRightOld = wRight
     if(wRight != wLeftOld){
-      
+      maneuver(1300, 1300, 300);
     }else{
       maneuver(1300, 1300, 200);
     }
+    wRightOld = wRight;
   }else if(wLeft == 0){
     digitalWrite(8, HIGH);
     reverse();
-    maneuver(1700, 1610, 200);
+    if(wLeft != wRightOld){
+      maneuver(1300, 1300, 300);
+    }else{
+      maneuver(1700, 1610, 200);
+    }
+    wLeftOld = wLeft;
   }else{
     digitalWrite(2, LOW);
     digitalWrite(8, LOW);

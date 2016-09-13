@@ -7,8 +7,7 @@ void setup() {
   servoLeft.attach(11);
   servoRight.attach(10);
 
-  pinMode(7, INPUT); //Right whisker
-  pinMode(5, INPUT); //Left whisker
+ 
   pinMode(9, OUTPUT); //Speaker
   pinMode(8, OUTPUT); //Left LED
   pinMode(2, OUTPUT); //Right LED
